@@ -1,6 +1,7 @@
 
 import { useState } from "react";
-import { Bell, ChevronDown, Search, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Bell, ChevronDown, Search, User, LogOut } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import {
@@ -10,9 +11,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Header = () => {
   const [notifications] = useState(5);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <header className="h-16 px-4 md:px-6 flex items-center border-b border-gray-700">
@@ -53,7 +62,10 @@ const Header = () => {
                 <span>Profile</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-gray-700" />
-              <DropdownMenuItem className="hover:bg-gray-700">Log out</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout} className="hover:bg-gray-700">
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
